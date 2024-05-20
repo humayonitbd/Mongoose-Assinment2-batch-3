@@ -52,7 +52,6 @@ const getSingleProduct=async (req:Request,res:Response)=>{
   try {
 
     const { productId } = req.params;
-    console.log('productId', productId);
 
     const result = await ProductServices.getSingleProductService(productId);
 
@@ -74,8 +73,59 @@ const getSingleProduct=async (req:Request,res:Response)=>{
 }
 
 
+const updatedProduct=async (req:Request,res:Response)=>{
+  try {
+
+    const { productId } = req.params;
+    const bodyData = req.body;
+
+    const result = await ProductServices.updateProductService(
+      productId,
+      bodyData,
+    );
+
+    res.status(200).json({
+      success: true,
+      message: 'Product is updated successfully!',
+      data: result,
+    });
+    
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Something went wrong!',
+      error: error,
+    });
+    
+  }
+
+}
+
+
+const deletedProduct = async (req: Request, res: Response) => {
+  try {
+    const { productId } = req.params;
+
+    const result = await ProductServices.deleteProductService(productId);
+
+    res.status(200).json({
+      success: true,
+      message: 'Products deleted  successfully!',
+      data: result,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Something went wrong!',
+      error: error,
+    });
+  }
+};
+
 export const ProductControllers = {
   createProduct,
   getAllProduct,
   getSingleProduct,
+  updatedProduct,
+  deletedProduct,
 };
