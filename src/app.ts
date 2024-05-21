@@ -23,11 +23,3 @@ app.use('*', (req: Request, res: Response) => {
   return res.status(404).json({ success: false, message: 'Route not found!' });
 });
 
-app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
-  if (error) {
-    return res
-      .status(404)
-      .json({ success: false, message: 'Order not found! banano hoase' });
-  }
-  next();
-});

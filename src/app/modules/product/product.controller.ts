@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import { ProductServices } from './product.service';
 import ProductValidationSchema from './product.validationSchema';
+import mongoose from 'mongoose';
+import getErrorMessage from '../../utils/getErrorMessage';
 
 const createProduct = async (req: Request, res: Response) => {
   try {
@@ -15,11 +17,11 @@ const createProduct = async (req: Request, res: Response) => {
       message: 'Product is created successfully!',
       data: result,
     });
-  } catch (error) {
+  } catch (error: unknown) {
     res.status(500).json({
       success: false,
       message: 'Something went wrong!',
-      error: error,
+      error: getErrorMessage(error),
     });
   }
 };
@@ -42,11 +44,11 @@ const getAllProduct = async (req: Request, res: Response) => {
       message: 'Products fetched successfully!',
       data: result,
     });
-  } catch (error) {
+  } catch (error: unknown) {
     res.status(500).json({
       success: false,
       message: 'Something went wrong!',
-      error: error,
+      error: getErrorMessage(error),
     });
   }
 };
@@ -54,7 +56,11 @@ const getAllProduct = async (req: Request, res: Response) => {
 const getSingleProduct = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
-
+    if (!mongoose.Types.ObjectId.isValid(productId)) {
+      return res
+        .status(400)
+        .json({ success: false, message: 'Invalid product ID' });
+    }
     const result = await ProductServices.getSingleProductService(productId);
 
     res.status(200).json({
@@ -62,11 +68,11 @@ const getSingleProduct = async (req: Request, res: Response) => {
       message: 'Products fetched successfully!',
       data: result,
     });
-  } catch (error) {
+  } catch (error: unknown) {
     res.status(500).json({
       success: false,
       message: 'Something went wrong!',
-      error: error,
+      error: getErrorMessage(error),
     });
   }
 };
@@ -74,23 +80,33 @@ const getSingleProduct = async (req: Request, res: Response) => {
 const updatedProduct = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(productId)) {
+      return res
+        .status(400)
+        .json({ success: false, message: 'Invalid product ID' });
+    }
     const bodyData = req.body;
-
     const result = await ProductServices.updateProductService(
       productId,
       bodyData,
     );
+
+    if (!result) {
+      return res
+        .status(404)
+        .json({ success: false, message: 'Product not found' });
+    }
 
     res.status(200).json({
       success: true,
       message: 'Product is updated successfully!',
       data: result,
     });
-  } catch (error) {
+  } catch (error: unknown) {
     res.status(500).json({
       success: false,
       message: 'Something went wrong!',
-      error: error,
+      error: getErrorMessage(error),
     });
   }
 };
@@ -98,7 +114,11 @@ const updatedProduct = async (req: Request, res: Response) => {
 const deletedProduct = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
-
+    if (!mongoose.Types.ObjectId.isValid(productId)) {
+      return res
+        .status(400)
+        .json({ success: false, message: 'Invalid product ID' });
+    }
     const result = await ProductServices.deleteProductService(productId);
 
     res.status(200).json({
@@ -106,11 +126,11 @@ const deletedProduct = async (req: Request, res: Response) => {
       message: 'Products deleted  successfully!',
       data: result,
     });
-  } catch (error) {
+  } catch (error: unknown) {
     res.status(500).json({
       success: false,
       message: 'Something went wrong!',
-      error: error,
+      error: getErrorMessage(error),
     });
   }
 };

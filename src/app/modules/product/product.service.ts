@@ -10,7 +10,6 @@ const createProductService = async (product: TProduct) => {
 const getAllProductService = async (searchTerm?: string) => {
   let result;
   if (searchTerm) {
-    // result = await Product.find({ $text: { $search: searchTerm } });
     result = await Product.find({
       name: { $regex: searchTerm, $options: 'i' },
     });
@@ -31,7 +30,6 @@ const updateProductService = async (id: string, newData: TProduct) => {
   if (!existingProduct) {
     throw new Error(`Product not found with id: ${id}`);
   }
-
   // Step 2: Modify the fields you want to update
   Object.assign(existingProduct, newData);
 

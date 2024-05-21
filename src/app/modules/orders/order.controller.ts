@@ -2,21 +2,17 @@ import { Request, Response } from 'express';
 import OrderValidationSchema from './order.validationSchema';
 import { OrderServices } from './order.service';
 import Product from '../product/product.model';
+import getErrorMessage from '../../utils/getErrorMessage';
 
 const createOrder = async (req: Request, res: Response) => {
   try {
     const { data: orderData } = req.body;
-
     // Fetch the ordered product
     const product = await Product.findById(orderData.productId);
-    console.log(product);
-
     if (!product) {
       throw new Error('Product not found');
     }
-
     // Check if the ordered quantity exceeds the available quantity
-
     if (orderData.quantity > product.inventory.quantity) {
       return res.send({
         success: false,
@@ -27,7 +23,6 @@ const createOrder = async (req: Request, res: Response) => {
     // Update inventory quantity and inStock status based on the ordered quantity
     product.inventory.quantity -= orderData.quantity;
     product.inventory.inStock = product.inventory.quantity > 0;
-
     // Save the updated product to the database
     await product.save();
 
@@ -39,11 +34,11 @@ const createOrder = async (req: Request, res: Response) => {
       message: 'Order created successfully!',
       data: result,
     });
-  } catch (error) {
+  } catch (error: unknown) {
     res.status(500).json({
       success: false,
       message: 'Something went wrong!',
-      error: error,
+      error: getErrorMessage(error),
     });
   }
 };
@@ -51,9 +46,7 @@ const createOrder = async (req: Request, res: Response) => {
 const getAllOrder = async (req: Request, res: Response) => {
   try {
     const { email } = req.query as { email?: string };
-
     const result = await OrderServices.getAllOrderService(email);
-
     if (!result || result.length === 0) {
       return res.status(404).json({
         success: false,
@@ -66,11 +59,11 @@ const getAllOrder = async (req: Request, res: Response) => {
       message: 'Orders fetched successfully!',
       data: result,
     });
-  } catch (error) {
+  } catch (error: unknown) {
     res.status(500).json({
       success: false,
       message: 'Something went wrong!',
-      error: error,
+      error: getErrorMessage(error),
     });
   }
 };

@@ -6,6 +6,9 @@ const OrderValidationSchema = z.object({
   productId: z
     .string()
     .regex(/^[0-9a-fA-F]{24}$/, 'Invalid product ID')
+    .refine((id) => mongoose.Types.ObjectId.isValid(id), {
+      message: 'Invalid product ID',
+    })
     .transform((id) => new mongoose.Types.ObjectId(id)),
   price: z.number().min(0, 'Price must be a non-negative number'),
   quantity: z.number().min(1, 'Quantity must be at least 1'),
