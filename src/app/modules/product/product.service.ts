@@ -7,8 +7,13 @@ const createProductService = async (product: TProduct) => {
   return result;
 };
 
-const getAllProductService = async () => {
-  const result = await Product.find({});
+const getAllProductService = async (searchTerm?: string) => {
+  let result;
+  if (searchTerm) {
+    result = await Product.find({ $text: { $search: searchTerm } });
+  } else {
+    result = await Product.find({});
+  }
   return result;
 };
 
@@ -31,7 +36,7 @@ const updateProductService = async (id: string, newData: TProduct) => {
   const updatedProduct = await existingProduct.save();
 
   return updatedProduct;
-}; 
+};
 
 const deleteProductService = async (id: string) => {
   const result = await Product.deleteOne({ _id: new ObjectId(id) });

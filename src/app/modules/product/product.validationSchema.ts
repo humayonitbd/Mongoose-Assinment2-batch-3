@@ -14,11 +14,9 @@ const InventorySchema = z.object({
       message: 'Inventory quantity must be a non-negative integer',
     })
     .refine((val) => val >= 0, { message: 'Inventory quantity is required' }),
-  inStock: z
-    .boolean()
-    .refine((val) => typeof val === 'boolean', {
-      message: 'Inventory inStock status is required',
-    }),
+  inStock: z.boolean().refine((val) => typeof val === 'boolean', {
+    message: 'Inventory inStock status is required',
+  }),
 });
 
 const ProductValidationSchema = z.object({

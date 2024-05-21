@@ -16,6 +16,7 @@ rules: {
 "prefer-const": "error",
 "no-console": "warn",
 "no-undef": "error",
+
 },
 },
 pluginJs.configs.recommended,
