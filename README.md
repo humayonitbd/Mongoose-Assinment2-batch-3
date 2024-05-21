@@ -22,25 +22,25 @@
 git clone https://github.com/humayonitbd/Mongoose-Assinment2-batch-3
 
 
-Install Dependencies
+## Install Dependencies
 
 **npm install
 
 
-Environment Variables
+## Environment Variables
 
 Create a .env file in the root of the project
 
 MONGO_URI=mongodb://localhost:27017/your-database
 PORT=3000
 
-Run the Application
+## Run the Application
 
 **npm run start:dev
 
 
 
-API Endpoints
+## API Endpoints
 Products
 GET /api/products: Fetch all products
 POST /api/products: Create a new product
@@ -51,13 +51,13 @@ GET /api/orders: Fetch all orders
 POST /api/orders: Create a new order
 
 
-Validation
+## Validation
 
 Using Zod
 Zod is another library used for schema validation.
 
 
-Error Handling
+## Error Handling
 404 Route Not Found
 
 app.use('*', (req, res) => {
@@ -65,7 +65,7 @@ app.use('*', (req, res) => {
 });
 
 
-Order Not Found
+## Order Not Found
 To handle cases where an order is not found, you can add a check in your service layer or controller:
 
 if (!order) {
