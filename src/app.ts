@@ -1,5 +1,5 @@
 import cors from 'cors';
-import express, { Application, Request, Response } from 'express';
+import express, { Application, NextFunction, Request, Response } from 'express';
 import { ProductRoute } from './app/modules/product/product.route';
 import { OrderRoute } from './app/modules/orders/order.route';
 
@@ -18,3 +18,16 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 export default app;
+
+app.use('*', (req: Request, res: Response) => {
+  return res.status(404).json({ success: false, message: 'Route not found!' });
+});
+
+app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
+  if (error) {
+    return res
+      .status(404)
+      .json({ success: false, message: 'Order not found! banano hoase' });
+  }
+  next();
+});

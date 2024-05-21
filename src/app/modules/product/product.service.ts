@@ -10,7 +10,10 @@ const createProductService = async (product: TProduct) => {
 const getAllProductService = async (searchTerm?: string) => {
   let result;
   if (searchTerm) {
-    result = await Product.find({ $text: { $search: searchTerm } });
+    // result = await Product.find({ $text: { $search: searchTerm } });
+    result = await Product.find({
+      name: { $regex: searchTerm, $options: 'i' },
+    });
   } else {
     result = await Product.find({});
   }
