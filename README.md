@@ -2,6 +2,8 @@
 
 ***This project is a simple API for managing products and orders. It includes functionalities for creating, updating, and fetching products and orders, as well as inventory management.
 
+# Server live link: https://mongoose-assinment2.vercel.app/
+
 # Main content 
 
 - [Installation](#installation)
@@ -9,7 +11,7 @@
 - [API Endpoints](#api-endpoints)
 - [Validation](#validation)
 - [Error Handling](#error-handling)
-- [License](#license)
+
 
 ### Prerequisites
 
