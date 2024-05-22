@@ -120,11 +120,15 @@ const deletedProduct = async (req: Request, res: Response) => {
         .json({ success: false, message: 'Invalid product ID' });
     }
     const result = await ProductServices.deleteProductService(productId);
-
+    if (!result) {
+      return res
+        .status(404)
+        .json({ success: false, message: 'Product not found' });
+    }
     res.status(200).json({
       success: true,
       message: 'Products deleted  successfully!',
-      product: result,
+      product: null,
     });
   } catch (error: unknown) {
     res.status(500).json({
