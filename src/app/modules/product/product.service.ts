@@ -20,7 +20,7 @@ const getAllProductService = async (searchTerm?: string) => {
 };
 
 const getSingleProductService = async (id: string) => {
-  const result = await Product.find({ _id: new ObjectId(id) });
+  const result = await Product.findOne({ _id: new ObjectId(id) });
   return result;
 };
 
