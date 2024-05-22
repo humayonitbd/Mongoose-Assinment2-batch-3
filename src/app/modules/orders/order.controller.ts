@@ -6,7 +6,8 @@ import getErrorMessage from '../../utils/getErrorMessage';
 
 const createOrder = async (req: Request, res: Response) => {
   try {
-    const { data: orderData } = req.body;
+    const { order: orderData } = req.body;
+    const zodParseData = OrderValidationSchema.parse(orderData);
     // Fetch the ordered product
     const product = await Product.findById(orderData.productId);
     if (!product) {
@@ -26,13 +27,12 @@ const createOrder = async (req: Request, res: Response) => {
     // Save the updated product to the database
     await product.save();
 
-    const zodParseData = OrderValidationSchema.parse(orderData);
     const result = await OrderServices.createOrderService(zodParseData);
 
     res.status(200).json({
       success: true,
       message: 'Order created successfully!',
-      data: result,
+      order: result,
     });
   } catch (error: unknown) {
     res.status(500).json({
@@ -57,7 +57,7 @@ const getAllOrder = async (req: Request, res: Response) => {
     res.status(200).json({
       success: true,
       message: 'Orders fetched successfully!',
-      data: result,
+      orders: result,
     });
   } catch (error: unknown) {
     res.status(500).json({

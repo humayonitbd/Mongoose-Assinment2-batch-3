@@ -6,7 +6,7 @@ import getErrorMessage from '../../utils/getErrorMessage';
 
 const createProduct = async (req: Request, res: Response) => {
   try {
-    const { data: productData } = req.body;
+    const { product: productData } = req.body;
 
     const zodParseData = ProductValidationSchema.parse(productData);
 
@@ -15,7 +15,7 @@ const createProduct = async (req: Request, res: Response) => {
     res.status(200).json({
       success: true,
       message: 'Product is created successfully!',
-      data: result,
+      product: result,
     });
   } catch (error: unknown) {
     res.status(500).json({
@@ -42,7 +42,7 @@ const getAllProduct = async (req: Request, res: Response) => {
     res.status(200).json({
       success: true,
       message: 'Products fetched successfully!',
-      data: result,
+      products: result,
     });
   } catch (error: unknown) {
     res.status(500).json({
@@ -66,7 +66,7 @@ const getSingleProduct = async (req: Request, res: Response) => {
     res.status(200).json({
       success: true,
       message: 'Products fetched successfully!',
-      data: result,
+      product: result,
     });
   } catch (error: unknown) {
     res.status(500).json({
@@ -94,13 +94,13 @@ const updatedProduct = async (req: Request, res: Response) => {
     if (!result) {
       return res
         .status(404)
-        .json({ success: false, message: 'Product not found' });
+        .json({ success: false, message: 'Product updated not found' });
     }
 
     res.status(200).json({
       success: true,
       message: 'Product is updated successfully!',
-      data: result,
+      product: result,
     });
   } catch (error: unknown) {
     res.status(500).json({
@@ -124,7 +124,7 @@ const deletedProduct = async (req: Request, res: Response) => {
     res.status(200).json({
       success: true,
       message: 'Products deleted  successfully!',
-      data: result,
+      product: result,
     });
   } catch (error: unknown) {
     res.status(500).json({
