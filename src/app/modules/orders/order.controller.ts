@@ -6,7 +6,7 @@ import getErrorMessage from '../../utils/getErrorMessage';
 
 const createOrder = async (req: Request, res: Response) => {
   try {
-    const { order: orderData } = req.body;
+    const  orderData = req.body;
     const zodParseData = OrderValidationSchema.parse(orderData);
     // Fetch the ordered product
     const product = await Product.findById(orderData.productId);

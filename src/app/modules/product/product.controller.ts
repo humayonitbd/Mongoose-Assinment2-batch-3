@@ -6,7 +6,7 @@ import getErrorMessage from '../../utils/getErrorMessage';
 
 const createProduct = async (req: Request, res: Response) => {
   try {
-    const { product: productData } = req.body;
+    const  productData = req.body;
 
     const zodParseData = ProductValidationSchema.parse(productData);
 
